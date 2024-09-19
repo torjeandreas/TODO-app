@@ -1,10 +1,30 @@
 import json
 import datetime
+import tkinter as tk
+from tkinter import messagebox
 
 
-tasks = [
+def create_main_window(title="Basic TO-DO App", size="400x300"):
+    root = tk.Tk()
+    root.title = title
+    root.geometry(size)
+    root.mainloop()
 
-]
+
+create_main_window()
+
+
+def load_tasks_from_file(filename="tasks.json"):
+    global tasks
+    try:
+        with open(filename, "r") as file:
+            tasks = json.load(file)
+    except FileNotFoundError:
+        tasks = []
+
+
+tasks = []
+load_tasks_from_file()
 
 
 def save_tasks_to_file(filename="tasks.json"):
@@ -79,7 +99,7 @@ def create_task():
     new_task = {"Name": name,
                 "Information": information,
                 "Category": category,
-                "Due date": due_date,
+                "Due date": str(due_date) if due_date else None,
                 "Backlog": backlog,
                 "Status": "Not started"
                 }
@@ -103,4 +123,5 @@ def remove_task():
 
 create_task()
 save_tasks_to_file()
+
 
